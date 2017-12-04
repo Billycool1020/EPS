@@ -1,0 +1,178 @@
+﻿@model EPS.DTO.EmployeeDetailDTO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    td{
+        width:200px
+    }
+</style>
+
+<h2>Details</h2>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.WSAlias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.WSAlias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.ChineseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.ChineseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.EnglishName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.EnglishName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.DateofBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.DateofBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.Major)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.Major)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.OnBoardDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.OnBoardDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.OM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.OM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.Group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.Group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.Lob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.Lob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.Product)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.Product)
+        </dd>
+
+    </dl>
+</div>
+
+@if (Model.TechnicalSkillList != null && Model.TechnicalSkillList.Count > 0)
+{
+    <p>
+        <h5>Technical Skill</h5>
+        <table  border="1">
+            <tr>
+                <th>Skill Name</th>
+                <th>Level</th>
+                <th>Assessed By</th>
+                <th>Assessed Date</th>
+            </tr>
+            @foreach (var t in Model.TechnicalSkillList)
+            {
+                <tr>
+                    <td>@t.Skill</td>
+                    <td>@t.Level</td>
+                    <td>@t.Assessedby</td>
+                    <td>@t.Date.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    </p>
+
+}
+@if (Model.LanguageSkillList != null && Model.LanguageSkillList.Count > 0)
+{
+    <p>
+        <h5>Language Skill</h5>
+        <table border="1">
+            <tr>
+                <th>Skill Name</th>
+                <th>Level</th>
+                <th>Assessed By</th>
+                <th>Assessed Date</th>
+            </tr>
+            @foreach (var t in Model.LanguageSkillList)
+            {
+                <tr>
+                    <td>@t.Skill</td>
+                    <td>@t.Level</td>
+                    <td>@t.Assessedby</td>
+                    <td>@t.Date.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    </p>
+
+}
+@if (Model.OtherSkillList != null && Model.OtherSkillList.Count>0)
+{
+    <p>
+        <h5>Other Skill</h5>
+        <table  border="1">
+            <tr>
+                <th>Skill Name</th>
+                <th>Level</th>
+                <th>Assessed By</th>
+                <th>Assessed Date</th>
+            </tr>
+            @foreach (var t in Model.OtherSkillList)
+            {
+                <tr>
+                    <td>@t.Skill</td>
+                    <td>@t.Level</td>
+                    <td>@t.Assessedby</td>
+                    <td>@t.Date.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    </p>
+
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.employee.MSAlias }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
