@@ -1,0 +1,127 @@
+﻿@model EPS.DTO.SkillDTO
+
+@{
+    ViewBag.Title = "AddSkill";
+}
+
+<h2>AddSkill</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal"  >
+        <h4>SkillDTO</h4>
+        <hr />
+                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Owner, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Type", null, "Please Choose...", htmlAttributes: new { @class = "form-control", @onchange="GetSKill(this);" })
+                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SkillID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="SkillID" name="SkillID" class="form-control">
+                    <option value='0'>Please Choose...</option>
+                </select>               
+                @Html.ValidationMessageFor(model => model.SkillID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.level, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.level, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Assessedby, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Assessedby, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Assessedby, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea class="form-control" rows="5" cols="37" name="comment" id="comment"></textarea>
+                @Html.ValidationMessageFor(model => model.Assessedby, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#Type").prop('selectedIndex', 0);  
+        })
+        function GetSKill(type) {
+            var type = type.options[type.selectedIndex].value;
+            var serviceURL = '/Employees/GetSKill';
+            $.ajax({
+                type: "POST",
+                url: serviceURL,
+                data: JSON.stringify({
+                    Type: type
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    var skill = $("#SkillID");
+                    $("#SkillID").empty().append("<option value='0'>Please Choose...</option>");
+                    $(response).each(function (index, value) {
+                        if (index == 0) {
+                            $("#SkillID").empty();
+                        }
+                        var $optgroup = $("<optgroup label='" + value.Name + "'>");
+                        $(value.list).each(function (index1, value1) {
+                            var op = "<option value='" + value1.ID + "'>" + value1.Name + " " + value1.Level + "</option>";
+                            $optgroup.append(op);
+                        })
+                        skill.append($optgroup);                        
+                    })
+                },
+            });
+        }
+    </script>
+}
