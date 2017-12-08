@@ -1,0 +1,126 @@
+﻿@model EPS.DTO.ExperienceDTO
+
+@{
+    ViewBag.Title = "AddExperience";
+}
+
+<h2>AddExperience</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Experience</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Owner, "Owner", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" }})
+                @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OM, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OM, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OM, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Group, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Group", null, "Please Choose...", htmlAttributes: new { @class = "form-control", @onchange = "GetProduct(this);" })
+                @Html.ValidationMessageFor(model => model.Group, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Product" name="Product" class="form-control">
+                    <option value='0'>Please Choose...</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Product, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lob, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Lob", null, "Please Choose...", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Lob, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+<script src="~/Scripts/moment.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <script>
+        $('#From').datetimepicker({
+            format: 'MM-DD-YYYY'
+        });
+
+        function GetProduct(Group){
+
+        }
+        function GetProduct(Group) {
+            var Group = Group.options[Group.selectedIndex].value;
+            var serviceURL = '/Employees/GetProduct';
+            $.ajax({
+                type: "POST",
+                url: serviceURL,
+                data: JSON.stringify({
+                    Group: Group
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {                   
+                    var product = $("#Product");
+                    $("#Product").empty().append("<option value='0'>Please Choose...</option>");
+                    $(response).each(function (index, value) {
+                        if (index == 0) {
+                            $("#Product").empty();
+                        }
+                        var op = "<option value='" + value + "'>" + value+ "</option>";
+                        product.append(op);                        
+                    })
+                },
+            });
+        }
+
+    </script>
+
+
+}

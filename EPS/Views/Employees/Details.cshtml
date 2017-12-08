@@ -2,177 +2,298 @@
 
 @{
     ViewBag.Title = "Details";
+    string email = Model.employee.MSAlias + "@microsoft.com";
 }
+@*
 
-<style>
-    td{
-        width:200px
-    }
-</style>
 
-<h2>Details</h2>
+    <h2>Details</h2>
 
-<div>
-    <h4>Employee</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.WSAlias)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.WSAlias)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.ChineseName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.ChineseName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.EnglishName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.EnglishName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.DateofBirth)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.DateofBirth)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.Major)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.Major)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.OnBoardDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.OnBoardDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.OM)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.OM)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.Group)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.Group)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.Lob)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.Lob)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.employee.Product)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.employee.Product)
-        </dd>
-
-    </dl>
-</div>
-
-@if (Model.TechnicalSkillList != null && Model.TechnicalSkillList.Count > 0)
-{
-    <p>
-        <h5>Technical Skill</h5>
-        <table  border="1">
-            <tr>
-                <th>Skill Name</th>
-                <th>Level</th>
-                <th>Assessed By</th>
-                <th>Assessed Date</th>
-            </tr>
-            @foreach (var t in Model.TechnicalSkillList)
-            {
-                <tr>
-                    <td>@t.Skill</td>
-                    <td>@t.Level</td>
-                    <td>@t.Assessedby</td>
-                    <td>@t.Date.ToShortDateString()</td>
-                </tr>
-            }
-        </table>
-    </p>
-
-}
-@if (Model.LanguageSkillList != null && Model.LanguageSkillList.Count > 0)
-{
-    <p>
-        <h5>Language Skill</h5>
+    <div>
+        <h4>Employee</h4>
+        <hr />
         <table border="1">
+          
             <tr>
-                <th>Skill Name</th>
-                <th>Level</th>
-                <th>Assessed By</th>
-                <th>Assessed Date</th>
-            </tr>
-            @foreach (var t in Model.LanguageSkillList)
-            {
-                <tr>
-                    <td>@t.Skill</td>
-                    <td>@t.Level</td>
-                    <td>@t.Assessedby</td>
-                    <td>@t.Date.ToShortDateString()</td>
-                </tr>
-            }
-        </table>
-    </p>
 
-}
-@if (Model.OtherSkillList != null && Model.OtherSkillList.Count>0)
-{
+            </tr>
+        </table>
+        <dl class="dl-horizontal">
+             
+
+         
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.OnBoardDate)
+            </dt>
+
+            <dd>
+                @Model.employee.OnBoardDate.ToShortDateString()
+            </dd>
+
+        </dl>
+    </div>
+
     <p>
-        <h5>Other Skill</h5>
-        <table  border="1">
-            <tr>
-                <th>Skill Name</th>
-                <th>Level</th>
-                <th>Assessed By</th>
-                <th>Assessed Date</th>
-            </tr>
-            @foreach (var t in Model.OtherSkillList)
-            {
-                <tr>
-                    <td>@t.Skill</td>
-                    <td>@t.Level</td>
-                    <td>@t.Assessedby</td>
-                    <td>@t.Date.ToShortDateString()</td>
-                </tr>
+        @Html.ActionLink("Add Skill", "AddSkill", new { id = Model.employee.MSAlias }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.employee.MSAlias }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style type="text/css">
+        td {
+            width: 200px
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: 16px Helvetica, Sans-Serif;
+            line-height: 24px;
+            background: url(images/noise.jpg);
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        #page-wrap {
+            width: 800px;
+            margin: 40px auto 60px;
+        }
+
+        #pic {
+            float: right;
+            margin: -30px 0 0 0;
+        }
+
+        h1 {
+            margin: 0 0 16px 0;
+            padding: 0 0 16px 0;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: -2px;
+            border-bottom: 1px solid #999;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 0 0 6px 0;
+            position: relative;
+        }
+
+            h2 span {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                font-style: italic;
+                font-family: Georgia, Serif;
+                font-size: 16px;
+                color: #999;
+                font-weight: normal;
             }
-        </table>
-    </p>
 
-}
+        p {
+            margin: 0 0 16px 0;
+        }
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.employee.MSAlias }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        .email {
+            color: #999;
+            text-decoration: none;
+            border-bottom: 1px dotted #999;
+        }
+
+        a:hover {
+            border-bottom-style: solid;
+            color: black;
+        }
+
+        ul {
+            margin: 0 0 32px 17px;
+        }
+
+        #objective {
+            width: 500px;
+            float: left;
+        }
+
+            #objective p {
+                font-family: Georgia, Serif;
+                font-style: italic;
+                color: #666;
+            }
+
+        dt {
+            font-style: italic;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: right;
+            padding: 0 26px 0 0;
+            width: 150px;
+            float: left;
+            height: 100px;
+            border-right: 1px solid #999;
+        }
+
+        dd {
+            width: 600px;
+            float: right;
+        }
+
+            dd.clear {
+                float: none;
+                margin: 0;
+                height: 15px;
+            }
+    </style>
+</head>
+<body>
+    <div id="page-wrap">
+        <div id="contact-info" class="vcard">
+            <!-- Microformats! -->
+            <h1 class="fn">@Html.DisplayFor(model => model.employee.ChineseName) (@Html.DisplayFor(model => model.employee.MSAlias))</h1>
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.employee.EnglishName):</strong> <span>@Html.DisplayFor(model => model.employee.EnglishName)</span>&nbsp;
+                <strong>@Html.DisplayNameFor(model => model.employee.WSAlias):</strong> <span>@Html.DisplayFor(model => model.employee.WSAlias)</span>&nbsp;                         
+                <strong>Date of Birth:</strong> <span>@Model.employee.DateofBirth.ToShortDateString()</span>&nbsp;
+                <strong>@Html.DisplayNameFor(model => model.employee.Major):</strong> <span>@Html.DisplayFor(model => model.employee.Major)</span>
+                <br />
+                <strong>Email:</strong> <a class="email" href="mailto:@email">@Model.employee.MSAlias@@microsoft.com</a>
+            </p>
+        </div>
+
+        @*<div id="objective">
+                    <p>
+                        I am an outgoing and energetic (ask anybody) young professional, seeking a
+                        career that fits my professional skills, personality, and murderous tendencies.
+                        My squid-like head is a masterful problem solver and inspires fear in who gaze upon it.
+                        I can bring world domination to your organization.
+                    </p>
+            </div>*@
+
+        <div class="clear"></div>
+
+        <dl>
+            <dd class="clear"></dd>
+
+            <dt>Position</dt>
+            <dd>
+                <h2>Support Engineer</h2>
+                <p>                    
+                    <strong>@Html.DisplayNameFor(model => model.employee.Group)</strong> <span>@Html.DisplayFor(model => model.employee.Group)</span>
+                    <strong>@Html.DisplayNameFor(model => model.employee.Product)</strong> <span>@Html.DisplayFor(model => model.employee.Product)</span>
+                    <strong>@Html.DisplayNameFor(model => model.employee.Lob) </strong> <span>@Html.DisplayFor(model => model.employee.Lob)</span>
+                    <br />
+                    <strong>@Html.DisplayNameFor(model => model.employee.OM)</strong> <span>@Html.DisplayFor(model => model.employee.OM)</span>
+                </p>
+            </dd>
+
+            <dd class="clear"></dd>
+
+
+            @if (Model.TechnicalSkillList != null && Model.TechnicalSkillList.Count > 0)
+            {
+                <dt>Technical Skills</dt>
+                <dd>
+                    <table border="1">
+                        <tr>
+                            <th>Skill Name</th>
+                            <th>Level</th>
+                            <th>Assessed By</th>
+                            <th>Assessed Date</th>
+                        </tr>
+                        @foreach (var t in Model.TechnicalSkillList)
+                        {
+                            <tr>
+                                <td>@t.Skill</td>
+                                <td>@t.Level</td>
+                                <td>@t.Assessedby</td>
+                                <td>@t.Date.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </table>
+                </dd>
+                <dd class="clear"></dd>
+            }
+
+            @if (Model.LanguageSkillList != null && Model.LanguageSkillList.Count > 0)
+            {
+                <dt>Language Skills</dt>
+                <dd>
+                    <table border="1">
+                        <tr>
+                            <th>Skill Name</th>
+                            <th>Level</th>
+                            <th>Assessed By</th>
+                            <th>Assessed Date</th>
+                        </tr>
+                        @foreach (var t in Model.LanguageSkillList)
+                        {
+                            <tr>
+                                <td>@t.Skill</td>
+                                <td>@t.Level</td>
+                                <td>@t.Assessedby</td>
+                                <td>@t.Date.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </table>
+                </dd>
+                <dd class="clear"></dd>
+            }
+
+            @if (Model.OtherSkillList != null && Model.OtherSkillList.Count > 0)
+            {
+                <dt>Other Skills</dt>
+                <dd>
+                    <table border="1">
+                        <tr>
+                            <th>Skill Name</th>
+                            <th>Level</th>
+                            <th>Assessed By</th>
+                            <th>Assessed Date</th>
+                        </tr>
+                        @foreach (var t in Model.OtherSkillList)
+                        {
+                            <tr>
+                                <td>@t.Skill</td>
+                                <td>@t.Level</td>
+                                <td>@t.Assessedby</td>
+                                <td>@t.Date.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </table>
+                </dd>
+                <dd class="clear"></dd>
+            }
+
+
+            <dt>Experience</dt>
+            <dd>
+                <h2>Doomsday Cult <span>Leader/Overlord - Baton Rogue, LA - 1926-2010</span></h2>
+                <ul>
+                    <li>Inspired and won highest peasant death competition among servants</li>
+                    <li>Helped coordinate managers to grow cult following</li>
+                    <li>Provided untimely deaths to all who opposed</li>
+                </ul>
+
+                <h2>The Watering Hole <span>Bartender/Server - Milwaukee, WI - 2009</span></h2>
+                <ul>
+                    <li>Worked on grass-roots promotional campaigns</li>
+                    <li>Reduced theft and property damage percentages</li>
+                    <li>Janitorial work, Laundry</li>
+                </ul>
+            </dd>
+
+            <dd class="clear"></dd>
+        </dl>
+
+        <div class="clear"></div>
+
+    </div>
+</body>
+</html>

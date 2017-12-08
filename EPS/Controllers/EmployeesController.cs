@@ -18,15 +18,14 @@ namespace EPS.Controllers
 
         // GET: Employees
         public ActionResult Index()
-        {          
+        {
             return View(db.Employees.ToList());
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(/*string id*/)
+        public ActionResult Details(string id)
         {
             EmployeeDetailDTO dto = new EmployeeDetailDTO();
-            var id = "v-haowli";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,15 +36,15 @@ namespace EPS.Controllers
                 return HttpNotFound();
             }
             dto.employee = employee;
-            var skilllist = db.EmployeeSkillDetails.Where(x => x.Employee == employee.MSAlias);
-            var technicalSkillList = skilllist.Where(x => x.Type == "Technical").OrderBy(o=>o.Date).ToList();
+            var skilllist = db.EmployeeSkillDetails.Where(x => x.Employee == employee.MSAlias).ToList();
+            var technicalSkillList = skilllist.Where(x => x.Type == "Technical").OrderBy(o => o.Date).ToList();
             dto.TechnicalSkillList = technicalSkillList;
 
             var languageSkillList = skilllist.Where(x => x.Type == "Language").OrderBy(o => o.Date).ToList();
             dto.LanguageSkillList = languageSkillList;
 
             var otherSkillList = skilllist.Where(x => x.Type == "Other").OrderBy(o => o.Date).ToList();
-            dto.TechnicalSkillList = otherSkillList;
+            dto.OtherSkillList = otherSkillList;
             return View(dto);
         }
 
@@ -131,7 +130,7 @@ namespace EPS.Controllers
 
 
         public ActionResult AddSkill(string id)
-        {            
+        {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -161,11 +160,11 @@ namespace EPS.Controllers
                 ViewBag.Type = new SelectList(db.Skills.GroupBy(x => x.Type).Select(s => s.Key));
                 return View(SkillDTO);
             }
-               
+
             var Skill = db.Skills.Find(SkillDTO.SkillID);
             if (Owner.Skills.Contains(Skill))
             {
-                ModelState.AddModelError("", SkillDTO.Owner+" already has this skill.");
+                ModelState.AddModelError("", SkillDTO.Owner + " already has this skill.");
                 ViewBag.Type = new SelectList(db.Skills.GroupBy(x => x.Type).Select(s => s.Key));
                 SkillDTO.Type = "Please Choose...";
                 return View(SkillDTO);
@@ -185,6 +184,65 @@ namespace EPS.Controllers
         }
 
 
+        public ActionResult AddExperience(/*string id*/)
+        {
+            var id = "v-haowli";
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            ExperienceDTO experience = new ExperienceDTO();
+            experience.Owner = id;
+            experience.From = DateTime.Today.ToShortDateString();
+            ViewBag.Group = new SelectList(db.Groups,"Id","Name");
+            ViewBag.Lob = new SelectList(db.Lobs.Select(x => x.Name));
+
+            ViewBag.Type = new SelectList(db.Skills.GroupBy(x => x.Type).Select(s => s.Key));
+            return View(experience);
+        }
+
+        [HttpPost]
+        public ActionResult AddExperience(SkillDTO SkillDTO)
+        {
+            var Owner = db.Employees.Find(SkillDTO.Owner);
+            if (SkillDTO.SkillID == 0)
+            {
+                ModelState.AddModelError("", "Please selete a skill.");
+                SkillDTO.Type = "Please Choose...";
+                ViewBag.Type = new SelectList(db.Skills.GroupBy(x => x.Type).Select(s => s.Key));
+                return View(SkillDTO);
+            }
+
+            var Skill = db.Skills.Find(SkillDTO.SkillID);
+            if (Owner.Skills.Contains(Skill))
+            {
+                ModelState.AddModelError("", SkillDTO.Owner + " already has this skill.");
+                ViewBag.Type = new SelectList(db.Skills.GroupBy(x => x.Type).Select(s => s.Key));
+                SkillDTO.Type = "Please Choose...";
+                return View(SkillDTO);
+            }
+            Owner.Skills.Add(Skill);
+            EmployeeSkillDetail detail = new EmployeeSkillDetail();
+            detail.Comment = SkillDTO.Comment;
+            detail.Date = Convert.ToDateTime(SkillDTO.Date);
+            detail.Assessedby = SkillDTO.Assessedby;
+            detail.Type = SkillDTO.Type;
+            detail.Employee = SkillDTO.Owner;
+            detail.Level = Skill.Level;
+            detail.Skill = Skill.Name;
+            db.EmployeeSkillDetails.Add(detail);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
         public class skilloption
         {
             public string Name { get; set; }
@@ -193,25 +251,32 @@ namespace EPS.Controllers
 
         public ActionResult GetSKill(string Type)
         {
-            var skills = db.Skills.Where(x => x.Type == Type && x.ParentID!=0).GroupBy(x=>x.ParentID).ToList();
+            var skills = db.Skills.Where(x => x.Type == Type && x.ParentID != 0).GroupBy(x => x.ParentID).ToList();
             List<skilloption> list = new List<skilloption>();
-            foreach(var s in skills)
+            foreach (var s in skills)
             {
                 skilloption option = new skilloption();
                 List<object> list2 = new List<object>();
-                option.Name = db.Skills.Where(x => x.ID==s.Key).Select(y=>y.Name).FirstOrDefault();
-                foreach(var ss in s)
+                option.Name = db.Skills.Where(x => x.ID == s.Key).Select(y => y.Name).FirstOrDefault();
+                foreach (var ss in s)
                 {
-                    list2.Add(new {Level = ss.Level,Name = ss.Name , ID = ss.ID});
+                    list2.Add(new { Level = ss.Level, Name = ss.Name, ID = ss.ID });
                 }
                 option.list = list2;
                 list.Add(option);
             }
-
             return Json(list, JsonRequestBehavior.AllowGet);
-        
-
         }
+
+
+
+        public ActionResult GetProduct(int Group)
+        {
+            var product = db.Products.Where(x => x.GroupID == Group).Select(x=>x.Name).ToList();
+            
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -222,7 +287,7 @@ namespace EPS.Controllers
             base.Dispose(disposing);
         }
 
-      
+
     }
-    
+
 }

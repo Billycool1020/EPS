@@ -14,5 +14,7 @@ namespace EPS.Models
         public int ParentID { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
+        //public virtual ICollection<Employee> Experts { get; set; }
+
     }
 }

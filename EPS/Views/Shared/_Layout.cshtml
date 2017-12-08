@@ -24,7 +24,7 @@
                     <li>@Html.ActionLink("Skill", "Index", "Skills")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
-                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name.Split('\\')[1]!</p>
+                <p class="nav navbar-text navbar-right">Hello, @Html.ActionLink(User.Identity.Name.Split('\\')[1] + "!", "Details", "Employees", new { id = User.Identity.Name.Split('\\')[1] }, new {})</p>
             </div>
         </div>
     </div>

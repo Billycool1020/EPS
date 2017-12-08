@@ -21,7 +21,7 @@
             @Html.LabelFor(model => model.Owner, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -29,7 +29,7 @@
             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Type", null, "Please Choose...", htmlAttributes: new { @class = "form-control", @onchange="GetSKill(this);" })
-                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -99,8 +99,7 @@
                 }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (response) {
-                    console.log(response);
+                success: function (response) {                    
                     var skill = $("#SkillID");
                     $("#SkillID").empty().append("<option value='0'>Please Choose...</option>");
                     $(response).each(function (index, value) {
